@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML to Email</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>HTML to Email</h1>
+    <p class="subtitle">Anexe um arquivo HTML e envie como email</p>
+
+    <form id="emailForm">
+      <div class="field">
+        <label for="to">Destinatário</label>
+        <input type="email" id="to" placeholder="destinatario@email.com" required />
+      </div>
+
+      <div class="field">
+        <label for="subject">Assunto</label>
+        <input type="text" id="subject" placeholder="Assunto do email" />
+      </div>
+
+      <div class="field">
+        <label for="htmlFile">Arquivo HTML</label>
+        <div class="file-drop" id="fileDrop">
+          <input type="file" id="htmlFile" accept=".html" required />
+          <span id="fileLabel">Clique ou arraste um arquivo .html aqui</span>
+        </div>
+      </div>
+
+      <div id="preview" class="preview hidden">
+        <div class="preview-header">
+          <span>Preview</span>
+          <button type="button" id="clearPreview">✕</button>
+        </div>
+        <iframe id="previewFrame"></iframe>
+      </div>
+
+      <button type="submit" id="sendBtn">Enviar email</button>
+    </form>
+
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
