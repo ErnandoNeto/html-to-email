@@ -8,37 +8,40 @@
 </head>
 <body>
   <div class="container">
-    <h1>HTML to Email</h1>
-    <p class="subtitle">Anexe um arquivo HTML e envie como email</p>
+    <div class="top-bar">
+      <h1>HTML to Email</h1>
+      <button id="langToggle" type="button">EN</button>
+    </div>
+    <p class="subtitle" data-i18n="subtitle">Anexe um arquivo HTML e envie como email</p>
 
     <form id="emailForm">
       <div class="field">
-        <label for="to">Destinatário</label>
-        <input type="email" id="to" placeholder="destinatario@email.com" required />
+        <label for="to" data-i18n="labelTo">Destinatário</label>
+        <input type="email" id="to" data-i18n-placeholder="placeholderTo" placeholder="destinatario@email.com" required />
       </div>
 
       <div class="field">
-        <label for="subject">Assunto</label>
-        <input type="text" id="subject" placeholder="Assunto do email" />
+        <label for="subject" data-i18n="labelSubject">Assunto</label>
+        <input type="text" id="subject" data-i18n-placeholder="placeholderSubject" placeholder="Assunto do email" />
       </div>
 
       <div class="field">
-        <label for="htmlFile">Arquivo HTML</label>
+        <label for="htmlFile" data-i18n="labelFile">Arquivo HTML</label>
         <div class="file-drop" id="fileDrop">
           <input type="file" id="htmlFile" accept=".html" required />
-          <span id="fileLabel">Clique ou arraste um arquivo .html aqui</span>
+          <span id="fileLabel" data-i18n="fileLabel">Clique ou arraste um arquivo .html aqui</span>
         </div>
       </div>
 
       <div id="preview" class="preview hidden">
         <div class="preview-header">
-          <span>Preview</span>
+          <span data-i18n="preview">Preview</span>
           <button type="button" id="clearPreview">✕</button>
         </div>
         <iframe id="previewFrame"></iframe>
       </div>
 
-      <button type="submit" id="sendBtn">Enviar email</button>
+      <button type="submit" id="sendBtn" data-i18n="sendBtn">Enviar email</button>
     </form>
 
     <div id="toast" class="toast hidden"></div>

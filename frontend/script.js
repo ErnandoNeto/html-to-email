@@ -1,5 +1,60 @@
 const API_URL = 'https://html-to-email.onrender.com'
 
+const translations = {
+  'pt-BR': {
+    subtitle: 'Anexe um arquivo HTML e envie como email',
+    labelTo: 'Destinatário',
+    placeholderTo: 'destinatario@email.com',
+    labelSubject: 'Assunto',
+    placeholderSubject: 'Assunto do email',
+    labelFile: 'Arquivo HTML',
+    fileLabel: 'Clique ou arraste um arquivo .html aqui',
+    preview: 'Preview',
+    sendBtn: 'Enviar email',
+    sending: 'Enviando...',
+    successMsg: 'Email enviado com sucesso!',
+    errorNoFile: 'Selecione um arquivo HTML.',
+    errorOnly: 'Apenas arquivos .html são aceitos.',
+  },
+  'en': {
+    subtitle: 'Attach an HTML file and send it as an email',
+    labelTo: 'Recipient',
+    placeholderTo: 'recipient@email.com',
+    labelSubject: 'Subject',
+    placeholderSubject: 'Email subject',
+    labelFile: 'HTML File',
+    fileLabel: 'Click or drag an .html file here',
+    preview: 'Preview',
+    sendBtn: 'Send email',
+    sending: 'Sending...',
+    successMsg: 'Email sent successfully!',
+    errorNoFile: 'Please select an HTML file.',
+    errorOnly: 'Only .html files are accepted.',
+  },
+}
+
+let currentLang = 'pt-BR'
+
+function applyLang(lang) {
+  const t = translations[lang]
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n')
+    if (t[key]) el.textContent = t[key]
+  })
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder')
+    if (t[key]) el.placeholder = t[key]
+  })
+  document.documentElement.lang = lang
+}
+
+const langToggle = document.getElementById('langToggle')
+langToggle.addEventListener('click', () => {
+  currentLang = currentLang === 'pt-BR' ? 'en' : 'pt-BR'
+  langToggle.textContent = currentLang === 'pt-BR' ? 'EN' : 'PT'
+  applyLang(currentLang)
+})
+
 const form = document.getElementById('emailForm')
 const htmlFile = document.getElementById('htmlFile')
 const fileLabel = document.getElementById('fileLabel')
@@ -39,7 +94,7 @@ fileDrop.addEventListener('drop', (e) => {
 
   const file = e.dataTransfer.files[0]
   if (!file || !file.name.endsWith('.html')) {
-    showToast('Apenas arquivos .html são aceitos.', 'error')
+    showToast(translations[currentLang].errorOnly, 'error')
     return
   }
 
@@ -51,7 +106,7 @@ fileDrop.addEventListener('drop', (e) => {
 
 clearPreview.addEventListener('click', () => {
   htmlFile.value = ''
-  fileLabel.textContent = 'Clique ou arraste um arquivo .html aqui'
+  fileLabel.textContent = translations[currentLang].fileLabel
   preview.classList.add('hidden')
   previewFrame.srcdoc = ''
 })
@@ -64,7 +119,7 @@ form.addEventListener('submit', async (e) => {
   const file = htmlFile.files[0]
 
   if (!file) {
-    showToast('Selecione um arquivo HTML.', 'error')
+    showToast(translations[currentLang].errorNoFile, 'error')
     return
   }
 
@@ -74,7 +129,7 @@ form.addEventListener('submit', async (e) => {
   formData.append('html', file)
 
   sendBtn.disabled = true
-  sendBtn.textContent = 'Enviando...'
+  sendBtn.textContent = translations[currentLang].sending
   hideToast()
 
   try {
@@ -89,16 +144,16 @@ form.addEventListener('submit', async (e) => {
       throw new Error(data.error || 'Erro ao enviar email.')
     }
 
-    showToast('Email enviado com sucesso!', 'success')
+    showToast(translations[currentLang].successMsg, 'success')
     form.reset()
-    fileLabel.textContent = 'Clique ou arraste um arquivo .html aqui'
+    fileLabel.textContent = translations[currentLang].fileLabel
     preview.classList.add('hidden')
     previewFrame.srcdoc = ''
   } catch (err) {
     showToast(err.message, 'error')
   } finally {
     sendBtn.disabled = false
-    sendBtn.textContent = 'Enviar email'
+    sendBtn.textContent = translations[currentLang].sendBtn
   }
 })
 
